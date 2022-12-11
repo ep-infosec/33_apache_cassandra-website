@@ -1,0 +1,238 @@
+= Downloading Cassandra
+:page-layout: basic-full
+
+
+[openblock,arrow py-xlarge]
+----
+[openblock,inner text-center]
+------
+[discrete]
+== Releases
+[openblock, cf release-row text-center]
+--------
+
+[openblock, inline50 inline-top]
+----------
+[discrete]
+=== Latest GA Version
+[discrete]
+==== Download the latest Apache Cassandra 4.0 GA release:
+[discrete]
+====== Released on 2022-10-23
+[discrete]
+====== Maintained until 4.3.0 release (May-July 2024)
+
+[.btn.btn--alt]
+https://www.apache.org/dyn/closer.lua/cassandra/4.0.7/apache-cassandra-4.0.7-bin.tar.gz[4.0.7,window=blank]
+
+(https://downloads.apache.org/cassandra/4.0.7/apache-cassandra-4.0.7-bin.tar.gz.asc[pgp,window=blank], https://downloads.apache.org/cassandra/4.0.7/apache-cassandra-4.0.7-bin.tar.gz.sha256[sha256,window=blank] and https://downloads.apache.org/cassandra/4.0.7/apache-cassandra-4.0.7-bin.tar.gz.sha512[sha512,window=blank])
+----------
+
+[openblock, inline50 inline-top]
+----------
+[discrete]
+=== Previous Stable Version
+[discrete]
+==== Download the latest Apache Cassandra 3.11 release:
+[discrete]
+====== Released on 2022-10-23
+[discrete]
+====== Maintained until 4.2.0 release (May-July 2023)
+
+[.btn.btn--alt]
+https://www.apache.org/dyn/closer.lua/cassandra/3.11.14/apache-cassandra-3.11.14-bin.tar.gz[3.11.14,window=blank]
+
+(https://downloads.apache.org/cassandra/3.11.14/apache-cassandra-3.11.14-bin.tar.gz.asc[pgp,window=blank], https://downloads.apache.org/cassandra/3.11.14/apache-cassandra-3.11.14-bin.tar.gz.sha256[sha256,window=blank] and https://downloads.apache.org/cassandra/3.11.14/apache-cassandra-3.11.14-bin.tar.gz.sha512[sha512,window=blank])
+----------
+
+[openblock, inline50 inline-top]
+----------
+
+[discrete]
+=== Older Supported Releases
+
+The following older Cassandra releases are still supported:
+[discrete]
+==== Apache Cassandra 3.0
+[discrete]
+====== Released on 2022-10-23
+[discrete]
+====== Maintained until 4.2.0 release (May-July 2023)
+
+[.btn.btn--alt]
+https://www.apache.org/dyn/closer.lua/cassandra/3.0.28/apache-cassandra-3.0.28-bin.tar.gz[3.0.28,window=blank]
+
+(https://downloads.apache.org/cassandra/3.0.28/apache-cassandra-3.0.28-bin.tar.gz.asc[pgp,window=blank], https://downloads.apache.org/cassandra/3.0.28/apache-cassandra-3.0.28-bin.tar.gz.sha256[sha256,window=blank] and https://downloads.apache.org/cassandra/3.0.28/apache-cassandra-3.0.28-bin.tar.gz.sha512[sha512,window=blank])
+
+
+Older (unsupported) versions of Cassandra are archived https://archive.apache.org/dist/cassandra/[here,window=_blank].
+----------
+
+--------
+------
+----
+
+// START ARROW
+[openblock,grad grad--two white]
+----
+[openblock,pa-xlarge]
+------
+------
+----
+// END ARROW
+
+[openblock,arrow pt-xlarge]
+----
+[openblock,inner]
+------
+
+[CAUTION]
+====
+image:/assets/img/caution.svg[alt="Caution",width=64,height=64]  Debian and RedHat package repositories have moved!
+
+Debian's `sources.list` and RedHat's `cassandra.repo` files must be updated to point to the new repository URLs (see below).
+====
+
+[example]
+====
+
+[discrete]
+=== Installation from Debian packages
+
+* For the `<release series>` specify the major version number, without dot, and with an appended x.
+* The latest `<release series>` is `40x`.
+* For older releases, the `<release series>` can be one of `311`, `30x`, or `22x`.
+* Add the Apache repository of Cassandra to `/etc/apt/sources.list.d/cassandra.sources.list`, for example for the latest 4.0
+
+[source]
+--
+echo "deb https://debian.cassandra.apache.org 40x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+--
+
+* Add the Apache Cassandra repository keys:
+
+[source]
+--
+curl https://downloads.apache.org/cassandra/KEYS | sudo apt-key add -
+--
+
+* Update the repositories:
+
+[source]
+--
+sudo apt-get update
+--
+
+* If you encounter this error:
+
+[source]
+--
+  GPG error: http://www.apache.org 311x InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY A278B781FE4B2BDA
+--
+
+Then add the public key A278B781FE4B2BDA as follows:
+
+[source]
+--
+sudo apt-key adv --keyserver pool.sks-keyservers.net --recv-key A278B781FE4B2BDA
+--
+and repeat `sudo apt-get update`. The actual key may be different, you get it from the error message itself. For a full list of Apache contributors public keys, you can refer to https://downloads.apache.org/cassandra/KEYS[Cassandra KEYS].
+
+* Install Cassandra:
+
+[source]
+--
+ sudo apt-get install cassandra
+--
+
+* You can start Cassandra with `sudo service cassandra start` and stop it with `sudo service cassandra stop`. However, normally the service will start automatically. For this reason be sure to stop it if you need to make any configuration changes.
+
+* Verify that Cassandra is running by invoking `nodetool status` from the command line.
+
+* The default location of configuration files is `/etc/cassandra`.
+
+* The default location of log and data directories is `/var/log/cassandra/` and `/var/lib/cassandra`.
+
+* Start-up options (heap size, etc) can be configured in `/etc/default/cassandra`.
+====
+// end example
+
+// start example
+[example]
+====
+
+[discrete]
+=== Installation from RPM packages
+
+* For the `<release series>``` specify the major version number, without dot, and with an appended x.
+* The latest `<release series>` is `40x`.
+* For older releases, the `<release series>` can be one of `311x`, `30x`, or `22x`.
+* (Not all versions of Apache Cassandra are available, since building RPMs is a recent addition to the project.)
+* For CentOS 7 and similar (rpm < 4.14), append the `noboolean` repository
+* Add the Apache repository of Cassandra to `/etc/yum.repos.d/cassandra.repo`, for example for the latest 4.0 version:
+
+
+[source]
+--
+[cassandra]
+name=Apache Cassandra
+baseurl=https://redhat.cassandra.apache.org/40x/
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://downloads.apache.org/cassandra/KEYS
+--
+
+Or for CentOS 7:
+
+[source]
+--
+[cassandra]
+name=Apache Cassandra
+baseurl=https://redhat.cassandra.apache.org/40x/noboolean/
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://downloads.apache.org/cassandra/KEYS
+--
+
+* Install Cassandra, accepting the gpg key import prompts:
+
+[source]
+--
+sudo yum install cassandra
+--
+Start Cassandra (will not start automatically):
+
+[source]
+--
+service cassandra start
+--
+
+Systemd based distributions may require to run `systemctl daemon-reload` once to make Cassandra available as a systemd service. This should happen automatically by running the command above.
+
+Make Cassandra start automatically after reboot:
+
+
+[source]
+--
+ chkconfig cassandra on
+--
+Please note that official RPMs for Apache Cassandra only have been available recently and are not tested thoroughly on all platforms yet. We appreciate your feedback and support and ask you to post details on any issues in the corresponding Jira ticket.
+
+====
+// end example
+
+// start example
+[example]
+====
+[discrete]
+== Source
+Development is done in the Apache Git repository. To check out a copy:
+
+[source]
+--
+git clone https://gitbox.apache.org/repos/asf/cassandra.git
+--
+====
+
+------
+----
